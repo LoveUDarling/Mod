@@ -1,0 +1,548 @@
+<Window x:Class="Customer_Management_system.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Customer_Management_system"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid>
+        <Label Content="Customer Id" HorizontalAlignment="Left" Margin="210,70,0,0" VerticalAlignment="Top"/>
+        <Label Content="Customer Name" HorizontalAlignment="Left" Margin="210,120,0,0" VerticalAlignment="Top"/>
+        <Label Content="City:" HorizontalAlignment="Left" Margin="210,200,0,0" VerticalAlignment="Top"/>
+        <Label Content="Country" HorizontalAlignment="Left" Margin="210,260,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txt_custid" HorizontalAlignment="Left" Height="23" Margin="360,74,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+        <TextBox x:Name="txt_Name" HorizontalAlignment="Left" Height="23" Margin="360,124,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cb_City" HorizontalAlignment="Left" Margin="360,200,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem>Mumbai</ComboBoxItem>
+            <ComboBoxItem>chennai</ComboBoxItem>
+            <ComboBoxItem>Bangalore</ComboBoxItem>
+            <ComboBoxItem>Pune</ComboBoxItem>
+        </ComboBox>
+        <ComboBox x:Name="cb_country" HorizontalAlignment="Left" Margin="360,264,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem>India</ComboBoxItem>
+        </ComboBox>
+        <Button x:Name="save" Content="Save" HorizontalAlignment="Left" Margin="260,345,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
+        <Button x:Name="Display" Content="Display" HorizontalAlignment="Left" Margin="470,345,0,0" VerticalAlignment="Top" Width="75" Click="Display_Click"/>
+
+    </Grid>
+</Window>
+-----------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using CMS_Bal;
+using CMS_Entyties;
+using CMS_Exceptions;
+
+
+namespace Customer_Management_system
+{
+    /// <summary>
+    /// Author  :Saikiran.Mankala
+    /// Date    :04/feb/2019
+    /// Project :Customer management System
+    /// Dis     :By Using ADO.Net Connected Architecture
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+        //Save Click for Accepting inputs from user and adding informationto database
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Customer_entity cust = new Customer_entity();
+
+                cust.Cust_Name = txt_Name.Text;
+                cust.Cust_City = cb_City.Text;
+                cust.Cust_Country = cb_country.Text;
+                CustomerBal bal = new CustomerBal();
+                bal.Add(cust);
+                MessageBox.Show("Information is added in Database");
+                txt_Name.Clear();
+                cb_City.SelectedItem = null;
+                cb_country.SelectedItem = null;
+
+            }
+            catch (Customer_Exceptions ex1)
+            {
+                MessageBox.Show(ex1.Message);
+
+            }
+            catch (SqlException ex2)
+            {
+
+                MessageBox.Show(ex2.Message);
+            }
+            catch (Exception ex3)
+            {
+
+
+                MessageBox.Show(ex3.Message);
+            }
+
+        }
+        //Display_click eventProcedure for displaying customer details
+        private void Display_Click(object sender, RoutedEventArgs e)
+        {
+            Display Dis = new Display();
+            
+            Dis.Show();
+            
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            CustomerBal eb = new CustomerBal();
+            txt_custid.Text= eb.Auto().ToString();
+        }
+    }
+}
+-------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using CMS_Bal;
+using CMS_Entyties;
+using CMS_Exceptions;
+
+
+namespace Customer_Management_system
+{
+    /// <summary>
+    /// Author  :Saikiran.Mankala
+    /// Date    :04/feb/2019
+    /// Project :Customer management System
+    /// Dis     :By Using ADO.Net Connected Architecture
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+        //Save Click for Accepting inputs from user and adding informationto database
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Customer_entity cust = new Customer_entity();
+
+                cust.Cust_Name = txt_Name.Text;
+                cust.Cust_City = cb_City.Text;
+                cust.Cust_Country = cb_country.Text;
+                CustomerBal bal = new CustomerBal();
+                bal.Add(cust);
+                MessageBox.Show("Information is added in Database");
+                txt_Name.Clear();
+                cb_City.SelectedItem = null;
+                cb_country.SelectedItem = null;
+
+            }
+            catch (Customer_Exceptions ex1)
+            {
+                MessageBox.Show(ex1.Message);
+
+            }
+            catch (SqlException ex2)
+            {
+
+                MessageBox.Show(ex2.Message);
+            }
+            catch (Exception ex3)
+            {
+
+
+                MessageBox.Show(ex3.Message);
+            }
+
+        }
+        //Display_click eventProcedure for displaying customer details
+        private void Display_Click(object sender, RoutedEventArgs e)
+        {
+            Display Dis = new Display();
+            
+            Dis.Show();
+            
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            CustomerBal eb = new CustomerBal();
+            txt_custid.Text= eb.Auto().ToString();
+        }
+    }
+}
+------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using CMS_Bal;
+using CMS_Entyties;
+using CMS_Exceptions;
+
+
+namespace Customer_Management_system
+{
+    /// <summary>
+    /// Interaction logic for Display.xaml
+    /// </summary>
+    public partial class Display : Window
+    {
+        public Display()
+        {
+            InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            CustomerBal bal = new CustomerBal();
+            DataTable d = bal.Display();
+            dg_display.ItemsSource = d.DefaultView;
+        }
+        
+    }
+}
+-------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CMS_Exceptions
+{
+    public class Customer_Exceptions:Exception
+    {
+        public Customer_Exceptions(string message) : base(message)
+        {
+
+        }
+    }
+}
+--------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CMS_Entyties
+{
+    public class Customer_entity
+    {
+        public int Cust_Id { get; set; }
+        public string Cust_Name { get; set; }
+        public string Cust_City { get; set; }
+        public string Cust_Country { get; set; }
+    }
+}
+---------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CMS_Entyties;
+using CMS_Exceptions;
+
+namespace CMS_Dal
+{
+    public class Customerdal
+    {
+        static string conStr = string.Empty;
+        SqlConnection con = null;
+        SqlCommand cmd = null;
+        static Customerdal()
+        {
+            conStr = ConfigurationManager.ConnectionStrings["ConStr"].ConnectionString;
+        }
+        public Customerdal()
+        {
+
+            con = new SqlConnection(conStr);
+        }
+        /// <summary>
+        /// Addcustomer method for adding Customer Details
+        /// </summary>
+        /// <param name="cust"></param>
+        public void AddCustomer(Customer_entity cust)
+        {
+
+
+            try
+            {
+                //Connection with SqlDataBase using Connected Architecture 
+                cmd = new SqlCommand();
+                cmd.CommandText = "smankala_168245.Cust_Insert";
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+
+                cmd.Parameters.AddWithValue("@Cust_Name", cust.Cust_Name);
+                cmd.Parameters.AddWithValue("@Cust_City", cust.Cust_City);
+                cmd.Parameters.AddWithValue("@Cust_Country", cust.Cust_Country);
+
+
+                con.Open();
+                int noOfRowsAffected = cmd.ExecuteNonQuery();
+
+            }
+
+            catch (Customer_Exceptions ex) { throw ex; }
+            catch (SqlException ex1)
+            {
+                throw ex1;
+            }
+            catch (SystemException ex2)
+            {
+                throw ex2;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+
+
+
+            ////////////////
+            ///
+            
+            public DataTable Display()
+            {
+                DataTable dt = null;
+
+                try
+                {
+                    // con = new SqlConnection();
+                    //con.ConnectionString = ConfigurationManager.ConnectionStrings["ConStr"].ConnectionString;
+                    cmd = new SqlCommand();
+                    cmd.CommandText = "smankala_168245.Cust_Display";
+                    cmd.Connection = con;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        dt = new DataTable();
+                        dt.Load(dr);
+                    }
+                }
+                catch (Customer_Exceptions ex) { throw ex; }
+                catch (SqlException ex1)
+                {
+                    throw ex1;
+                }
+                catch (SystemException ex2)
+                {
+                    throw ex2;
+                }
+                finally
+                {
+                    if (con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                }
+                return dt;
+            }
+
+        /// <summary>
+        /// Automatic number for ID
+        /// </summary>
+        /// <returns></returns>
+        DataTable dtStudent = new DataTable();
+        public int AutoMat()
+        {
+            int p = 0;
+            try
+            {
+              
+                cmd = new SqlCommand("select IDENT_CURRENT('smankala_168245.CustomerDetails')", con);
+              
+               con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dtStudent.Load(dr);
+                    p = int.Parse(dtStudent.Rows[0][0].ToString());
+                }
+            }
+            catch (Customer_Exceptions ex) { throw ex; }
+            catch (SqlException ex1)
+            {
+                throw ex1;
+            }
+            catch (SystemException ex2)
+            {
+                throw ex2;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+            return p+1;
+        }
+
+
+    }
+}
+-------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using CMS_Dal;
+using CMS_Entyties;
+using CMS_Exceptions;
+
+namespace CMS_Bal
+{
+    public class CustomerBal
+    {
+        private bool IsValid(Customer_entity cust)
+        {
+
+            bool valid = true;
+            StringBuilder sb = new StringBuilder();
+
+            if (!(Regex.IsMatch(cust.Cust_Name, @"^[A-Z,a-z]+$")))
+            {
+                valid = false;
+                sb.Append(Environment.NewLine + "Name should not number and special charecters ");
+            }
+            if (cust.Cust_City==string.Empty)
+            {
+                valid = false;
+                sb.Append(Environment.NewLine + "Customer City should not empty");
+            }
+            if (cust.Cust_Country== string.Empty)
+            {
+                valid = false;
+                sb.Append(Environment.NewLine + "Customer country should not empty");
+            }
+
+            if (!valid)
+            {
+                throw new Customer_Exceptions(sb.ToString());
+            }
+
+            return valid;
+        }
+
+
+        Customerdal dAL = new Customerdal();
+        public void Add(Customer_entity cust)
+        {
+            
+            try
+            {
+
+                if (IsValid(cust))
+                {
+                     dAL.AddCustomer(cust);
+                }
+
+            }
+            catch (Customer_Exceptions ex1)
+            {
+                throw ex1;
+
+            }
+            catch (SqlException ex2)
+            {
+                throw ex2;
+            }
+            catch (Exception ex3)
+            {
+
+                throw ex3;
+            }
+          
+        }
+
+
+        public  DataTable Display()
+        {
+            try
+            {
+                
+                return dAL.Display();
+            }
+            catch (Customer_Exceptions ex) { throw ex; }
+            catch (SqlException ex1)
+            {
+                throw ex1;
+            }
+            catch (SystemException ex2)
+            {
+                throw ex2;
+            }
+
+        }
+
+        public int Auto()
+        {
+            Customerdal dal = new Customerdal();
+            return dal.AutoMat();
+        }
+
+    }
+}
+
